@@ -33,7 +33,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 处理发送中的消息数据.
+ * 处理发送中的消息数据. 【30秒执行一次】
  *
  * @author paascloud.net @gmail.com
  */
@@ -54,6 +54,7 @@ public class HandleSendingMessageJob extends AbstractBaseDataflowJob<TpcMqMessag
 	private TpcMqConfirmMapper tpcMqConfirmMapper;
 
 	/**
+	 * 查询可靠消息表中消息状态为已发送，任务状态为已创建的记录
 	 * Fetch job data list.
 	 *
 	 * @param jobParameter the job parameter
@@ -103,20 +104,21 @@ public class HandleSendingMessageJob extends AbstractBaseDataflowJob<TpcMqMessag
 			// 设置任务状态为执行中
 			message.setPreStatusList(preStatusList);
 			message.setTaskStatus(JobTaskStatusEnum.TASK_EXETING.status());
-			int updateRes = tpcMqMessageService.updateMqMessageTaskStatus(message);
+			int updateRes = tpcMqMessageService.updateMqMessageTaskStatus(message); //更新任务状态为执行中
 			if (updateRes > 0) {
 				try {
 
 					// 查询是否全部订阅者都确认了消息 是 则更新消息状态完成, 否则重发消息
-
+					//
 					int count = tpcMqConfirmMapper.selectUnConsumedCount(message.getMessageKey());
+					log.info("messagekey ={},count ={}",message.getMessageKey(),count);
 					int status = JobTaskStatusEnum.TASK_CREATE.status();
-					if (count < 1) {
+					if (count < 1) {   //该订阅者都确认了消息
 						TpcMqMessage update = new TpcMqMessage();
-						update.setMessageStatus(MqSendStatusEnum.FINISH.sendStatus());
+						update.setMessageStatus(MqSendStatusEnum.FINISH.sendStatus()); //更新可靠消息表状态为已完成
 						update.setId(message.getId());
 						tpcMqMessageService.updateMqMessageStatus(update);
-						status = JobTaskStatusEnum.TASK_SUCCESS.status();
+						status = JobTaskStatusEnum.TASK_SUCCESS.status(); //更新可靠消息表任务状态为已完成
 					} else {
 						tpcMqMessageService.resendMessageByMessageId(message.getId());
 					}

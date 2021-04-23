@@ -1,24 +1,24 @@
 server:
-  port: 8080
+  port: 8088
 
 spring:
   profiles:
     active: dev
   application:
     name: @pom.artifactId@
-  rabbitmq:
+  rabbitmq: #需本地已经安装了 rabbitmq 并启动
     host: paascloud-mq-rabbit
     port: 5672
     username: guest
     password: guest
   boot:
     admin:
-      username: admin
+      username: admin  #监控默认用户名
       password: admin
 
 security:
   user:
-    name: admin
+    name: admin  #界面默认用户名
     password: admin
 
 info:

@@ -53,7 +53,6 @@ public class MdcProductMainController extends BaseController {
 	@PostMapping(value = "/queryProductListWithPage")
 	@ApiOperation(httpMethod = "POST", value = "分页查询商品列表")
 	public Wrapper<PageInfo<ProductVo>> queryProductListWithPage(@ApiParam(name = "mdcProduct", value = "商品信息") @RequestBody MdcProduct mdcProduct) {
-
 		logger.info("分页查询商品列表, mdcProduct={}", mdcProduct);
 		PageHelper.startPage(mdcProduct.getPageNum(), mdcProduct.getPageSize());
 		mdcProduct.setOrderBy("update_time desc");

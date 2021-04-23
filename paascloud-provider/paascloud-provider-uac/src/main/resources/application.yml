@@ -3,7 +3,8 @@ server:
 
 spring:
   application:
-    name: @pom.artifactId@
+#    name: @pom.artifactId@
+    name: paascloud-provider-uac
   datasource:
     username: root
     password: 123456

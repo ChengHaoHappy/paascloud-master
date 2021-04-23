@@ -11,6 +11,7 @@
 
  package com.paascloud.security.server;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -27,6 +28,7 @@ import java.util.Map;
  *
  * @author paascloud.net @gmail.com
  */
+@Slf4j
 public class TokenJwtEnhancer implements TokenEnhancer {
 
 	/**
@@ -48,7 +50,7 @@ public class TokenJwtEnhancer implements TokenEnhancer {
 		}
 
 		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
-
+		log.info("**return accessToken**");
 		return accessToken;
 	}
 

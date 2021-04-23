@@ -35,27 +35,33 @@
   </dependencyManagement>
 
   <dependencies>
+    <!--关键依赖-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-config</artifactId>
     </dependency>
+    <!--服务客户端-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
     </dependency>
+    <!--关键依赖-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-config-server</artifactId>
     </dependency>
+    <!--安全相关-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-security</artifactId>
     </dependency>
+    <!--监测客户端 spring-boot-admin 组件可以在服务端监控整个项目的运行情况-->
     <dependency>
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-starter-client</artifactId>
       <version>1.5.7</version>
     </dependency>
+    <!--利用mq代理的消息总线,用于通知刷新配置-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-bus-amqp</artifactId>

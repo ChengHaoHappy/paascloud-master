@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 
 /**
  * The class Rest client details service.
- *
+ * 设置
  * @author paascloud.net @gmail.com
  */
 @Slf4j
@@ -37,7 +37,7 @@ public class RestClientDetailsServiceImpl implements ClientDetailsService {
 			for (OAuth2ClientProperties client : securityProperties.getOauth2().getClients()) {
 				builder.withClient(client.getClientId())
 						.secret(client.getClientSecret())
-						.authorizedGrantTypes("refresh_token", "password", "client_credentials")
+						.authorizedGrantTypes("refresh_token", "password", "client_credentials")//密码模式、客户端模式
 						.accessTokenValiditySeconds(client.getAccessTokenValidateSeconds())
 						.refreshTokenValiditySeconds(client.getRefreshTokenValiditySeconds())
 						.scopes(client.getScope());

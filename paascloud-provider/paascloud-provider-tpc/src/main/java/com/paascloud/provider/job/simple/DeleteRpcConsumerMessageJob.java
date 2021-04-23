@@ -27,6 +27,7 @@ import javax.annotation.Resource;
 
 /**
  * 定时清理所有订阅者消费成功的消息数据.
+ * 定时清理所有订阅者 7 天前消费成功的消息数据【每天0点】；
  *
  * @author paascloud.net @gmail.com
  */
@@ -42,18 +43,24 @@ public class DeleteRpcConsumerMessageJob implements SimpleJob {
 	 * Execute.
 	 *
 	 * @param shardingContext the sharding context
+	 *
 	 */
 	@Override
 	public void execute(final ShardingContext shardingContext) {
 		ShardingContextDto shardingContextDto = new ShardingContextDto(shardingContext.getShardingTotalCount(), shardingContext.getShardingItem());
 		final TpcMqMessageDto message = new TpcMqMessageDto();
+		// 将 Elastic-Job 该定时任务分片上下文设置到消息体中
 		message.setMessageBody(JSON.toJSONString(shardingContextDto));
+		// 设置清理任务的消息标签：删除消费者历史消息
 		message.setMessageTag(AliyunMqTopicConstants.MqTagEnum.DELETE_CONSUMER_MESSAGE.getTag());
+		// 设置清理任务的消息主题
 		message.setMessageTopic(AliyunMqTopicConstants.MqTopicEnum.TPC_TOPIC.getTopic());
+		// 设置该服务的生产组
 		message.setProducerGroup(paascloudProperties.getAliyun().getRocketMq().getProducerGroup());
 		String refNo = Long.toString(UniqueIdGenerator.generateId());
 		message.setRefNo(refNo);
 		message.setMessageKey(refNo);
+		// 发送清理所有订阅者消费成功的消息数据
 		tpcMqMessageService.saveAndSendMessage(message);
 	}
 }

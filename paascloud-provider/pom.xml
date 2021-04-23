@@ -27,6 +27,8 @@
     </modules>
 
     <dependencies>
+
+        <!--拉去远程配置文件 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
@@ -47,6 +49,7 @@
             <groupId>com.liuzm.paascloud.common</groupId>
             <artifactId>paascloud-common-core</artifactId>
         </dependency>
+        <!-- 监控管理(如：状态页和健康指标) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>

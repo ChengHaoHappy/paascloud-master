@@ -47,7 +47,7 @@ public class PaasCloudUacApplication {
 	}
 
 	@Bean
-	public SpringLiquibase springLiquibase(DataSource dataSource) {
+	public SpringLiquibase springLiquibase( DataSource dataSource) {
 
 		SpringLiquibase springLiquibase = new SpringLiquibase();
 

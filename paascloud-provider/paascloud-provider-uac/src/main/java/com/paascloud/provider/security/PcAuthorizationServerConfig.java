@@ -53,8 +53,9 @@ public class PcAuthorizationServerConfig extends AuthorizationServerConfigurerAd
 	 */
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+		//对于CheckEndpoint控制器[框架自带的校验]的/oauth/check端点允许所有客户端发送器请求而不会被Spring-security拦截
 		security.tokenKeyAccess("permitAll()");
-		security.allowFormAuthenticationForClients();
+		security.allowFormAuthenticationForClients(); //允许client_id 和client_secret 做登录认证
 	}
 
 	/**
@@ -78,11 +79,14 @@ public class PcAuthorizationServerConfig extends AuthorizationServerConfigurerAd
 	 */
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.tokenStore(tokenStore)
-				.authenticationManager(authenticationManager)
-				.userDetailsService(userDetailsService);
+		endpoints.tokenStore(tokenStore)  //如果不设置，则会默认使用内存当做存储介质
+				.authenticationManager(authenticationManager)  //密码模式下配置认证管理器，用于支持passwordM模式
+				.userDetailsService(userDetailsService);  //用于支持令牌的刷新
 
+
+		//？？？
 		if (jwtAccessTokenConverter != null && jwtTokenEnhancer != null) {
+			System.out.println("*********jwtAccessTokenConverter not null **************** ");
 			TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
 			List<TokenEnhancer> enhancers = new ArrayList<>();
 			enhancers.add(jwtTokenEnhancer);

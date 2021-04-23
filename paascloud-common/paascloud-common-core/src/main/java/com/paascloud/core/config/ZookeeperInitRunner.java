@@ -23,6 +23,10 @@ import javax.annotation.Resource;
 import java.net.InetAddress;
 
 /**
+ *
+ * 平常开发中有可能需要实现在项目启动后执行的功能，
+ * SpringBoot提供的一种简单的实现方案就是添加一个model并实现CommandLineRunner接口，
+ * 实现功能的代码放在实现的run方法中
  * The class Redis init runner.
  *
  * @author paascloud.net @gmail.com

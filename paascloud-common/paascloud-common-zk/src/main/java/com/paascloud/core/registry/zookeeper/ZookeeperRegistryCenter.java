@@ -47,8 +47,10 @@ public final class ZookeeperRegistryCenter implements CoordinatorRegistryCenter 
 
 	private final Map<String, TreeCache> caches = new HashMap<>();
 
+	/** zookeeper操作客户端 */
 	@Getter
 	private CuratorFramework client;
+	/** DistributedAtomicInteger：Curator框架分布式场景的分布式计数器 */
 	@Getter
 	private DistributedAtomicInteger distributedAtomicInteger;
 
@@ -67,6 +69,7 @@ public final class ZookeeperRegistryCenter implements CoordinatorRegistryCenter 
 	@Override
 	public void init() {
 		log.debug("Elastic job: zookeeper registry center init, server lists is: {}.", zkConfig.getZkAddressList());
+        // Curator 建造者模式连接zookeeper客户端
 		CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder()
 				.connectString(zkConfig.getZkAddressList())
 				.retryPolicy(new ExponentialBackoffRetry(zkConfig.getBaseSleepTimeMilliseconds(), zkConfig.getMaxRetries(), zkConfig.getMaxSleepTimeMilliseconds()));
@@ -423,6 +426,7 @@ public final class ZookeeperRegistryCenter implements CoordinatorRegistryCenter 
 	@Override
 	public AtomicValue<Integer> getAtomicValue(String path, RetryNTimes retryNTimes) {
 		try {
+			//返回 path节点的版本？
 			distributedAtomicInteger = new DistributedAtomicInteger(client, path, retryNTimes);
 			return distributedAtomicInteger.get();
 		} catch (Exception e) {

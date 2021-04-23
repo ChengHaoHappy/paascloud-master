@@ -131,11 +131,12 @@ public class MqMessageServiceImpl implements MqMessageService {
 	public void confirmReceiveMessage(String cid, MqMessageData messageData) {
 		final String messageKey = messageData.getMessageKey();
 		log.info("confirmReceiveMessage - 消费者={}, 确认收到key={}的消息", cid, messageKey);
-		// 先保存消息
+		// 持久化消费者确认消息 MqMessageData 到本地服务 mysql 中，表 pc_mq_message_data
+		log.info("持久化消费者确认消息");
 		messageData.setMessageType(MqMessageTypeEnum.CONSUMER_MESSAGE.messageType());
 		messageData.setId(UniqueIdGenerator.generateId());
 		mqMessageDataMapper.insertSelective(messageData);
-
+		// 调用远端服务 TPC，更新xi消息表状态为已确认，TpcMqConfirm，表 pc_tpc_mq_confirm；
 		Wrapper wrapper = tpcMqMessageFeignApi.confirmReceiveMessage(cid, messageKey);
 		log.info("tpcMqMessageFeignApi.confirmReceiveMessage result={}", wrapper);
 		if (wrapper == null) {

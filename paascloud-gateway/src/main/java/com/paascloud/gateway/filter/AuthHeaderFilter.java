@@ -42,7 +42,11 @@ public class AuthHeaderFilter extends ZuulFilter {
 
 
 	/**
-	 * Filter type string.
+	 * 四种类型：pre,routing,error,post
+	 * pre：主要用在路由映射的阶段是寻找路由映射表的,可以在请求被路由之前调用
+	 * routing:具体的路由转发过滤器是在routing路由器，具体的请求转发的时候会调用
+	 * error:一旦前面的过滤器出错了，会调用error过滤器。
+	 * post:当routing，error运行完后才会调用该过滤器，是在最后阶段的
 	 *
 	 * @return the string
 	 */
@@ -53,7 +57,7 @@ public class AuthHeaderFilter extends ZuulFilter {
 
 	/**
 	 * Filter order int.
-	 *
+	 * 自定义过滤器执行的顺序，数值越大越靠后执行，越小就越先执行
 	 * @return the int
 	 */
 	@Override
@@ -62,6 +66,7 @@ public class AuthHeaderFilter extends ZuulFilter {
 	}
 
 	/**
+	 * 控制过滤器生效不生效，可以在里面写一串逻辑来控制
 	 * Should filter boolean.
 	 *
 	 * @return the boolean
@@ -73,7 +78,7 @@ public class AuthHeaderFilter extends ZuulFilter {
 
 	/**
 	 * Run object.
-	 *
+	 * 执行过滤逻辑
 	 * @return the object
 	 */
 	@Override
@@ -92,7 +97,7 @@ public class AuthHeaderFilter extends ZuulFilter {
 	private void doSomething(RequestContext requestContext) throws ZuulException {
 		HttpServletRequest request = requestContext.getRequest();
 		String requestURI = request.getRequestURI();
-
+		log.info("requestURI: "+ requestURI);
 		if (OPTIONS.equalsIgnoreCase(request.getMethod()) || !requestURI.contains(AUTH_PATH) || !requestURI.contains(LOGOUT_URI) || !requestURI.contains(ALIPAY_CALL_URI)) {
 			return;
 		}

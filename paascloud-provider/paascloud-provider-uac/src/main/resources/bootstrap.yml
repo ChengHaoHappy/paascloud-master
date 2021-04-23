@@ -5,11 +5,11 @@ spring:
     config:
       fail-fast: true
       discovery:
-        service-id: paascloud-discovery
+        service-id: paascloud-discovery   #指定config server在服务发现中的serviceId，默认为：configserver,配置中心服务名
         enabled: true
       label: ${spring.profiles.active}
       profile: ${spring.profiles.active}
-      username: admin
+      username: admin   #配置中心的用户名和密码，此配置会覆盖uri中的配置
       password: admin
 
 eureka:

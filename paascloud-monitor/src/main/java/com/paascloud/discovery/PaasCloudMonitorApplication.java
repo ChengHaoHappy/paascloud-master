@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Bean;
  * @author paascloud.net@gmail.com
  */
 @SpringBootApplication
-@EnableDiscoveryClient
+@EnableDiscoveryClient  //开启服务发现
 @EnableTurbine
 @EnableHystrixDashboard
 @EnableCircuitBreaker

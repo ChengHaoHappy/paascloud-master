@@ -1,31 +1,37 @@
+#git配置
 spring:
+  profiles:     # 配置中心本地路径
+    active: native
   cloud:
     config:
       server:
-        git:
-          uri: https://github.com/paascloud/paascloud-config-repo.git
-          username:
-          password:
-          search-paths: /*
-          default-label: ${spring.profiles.active}
-          basedir: /data/config/paascloud-config-repo
-    inetutils:
+        native:    # 配置中心本地路径
+          search-locations: E:/GitHub/paascloud-config-repo
+#        git:
+#          uri: https://github.com/paascloud/paascloud-config-repo.git  #git上配置文件地址
+#          username:   #如果为公共仓库就为空,私有仓库需要用户名和密码
+#          password:
+#          search-paths: /*
+#          default-label: ${spring.profiles.active}  #指定配置环境
+#          basedir: /data/config/paascloud-config-repo #git、svn相关系统后台文件存放地址，指定到非系统盘目录下都行（放到系统盘下有被当做垃圾清理的危险）
+    inetutils:  #网卡相关
       ignoredInterfaces:
         - docker0
         - veth.*
       preferredNetworks:
         - 192.168
 
+#对配置内容进行加密
 encrypt:
   key-store:
-    location: classpath:/server.jks
-    password: paascloud-storepass
-    alias: paascloud-key-store
-    secret: paascloud-keypass
+    location: classpath:/server.jks #指定密钥地址
+    password: paascloud-storepass  #密钥密码
+    alias: paascloud-key-store    #密钥别名
+    secret: paascloud-keypass    #私密保护密钥 (默认密码相同)
 
 eureka:
   client:
-    serviceUrl:
+    serviceUrl: #指定服务注册中心地址
       defaultZone: http://root:root@paascloud-eureka:8761/eureka/
-  instance:
+  instance: #设置实例id 会在eureka界面下的status中显示
     instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${server.port}

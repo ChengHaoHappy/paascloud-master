@@ -133,6 +133,7 @@ public class RequestUtil {
 
 	public static String[] extractAndDecodeHeader(String header) throws IOException {
 
+		//从第六个开始截取到最后
 		byte[] base64Token = header.substring(6).getBytes("UTF-8");
 		byte[] decoded;
 		try {

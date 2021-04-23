@@ -46,12 +46,15 @@ public class RocketMqProducer {
 		return retrySendMessage(pid, message);
 	}
 
+	// 核心方法：重试发送消息（重试次数3次）
+    // pid：producerGroup --> 发送邮件服务是 PID_UAC
+    // cid: consumerGroup --> 监听邮件消息服务是 CID_OPC
 	private static SendResult retrySendMessage(String pid, Message msg) {
 		int iniCount = 1;
 		SendResult result;
 		while (true) {
 			try {
-				result = MqProducerBeanFactory.getBean(pid).send(msg);
+				result = MqProducerBeanFactory.getBean(pid).send(msg); //发送mq消息
 				break;
 			} catch (Exception e) {
 				log.error("发送消息失败:", e);
@@ -60,7 +63,7 @@ public class RocketMqProducer {
 				}
 			}
 		}
-		log.info("<== 发送MQ SendResult={}", result);
+		log.info("<== 发送MQ成功 SendResult={}", result);
 		return result;
 	}
 

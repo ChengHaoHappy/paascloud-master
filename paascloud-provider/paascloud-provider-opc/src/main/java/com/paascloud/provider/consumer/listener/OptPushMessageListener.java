@@ -80,6 +80,7 @@ public class OptPushMessageListener implements MessageListenerConcurrently {
 			}
 			if (PublicUtil.isNotEmpty(mqKV)) {
 				log.error("MQ消费Topic={},tag={},key={}, 重复消费", topicName, tags, keys);
+				// 消费成功
 				return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 			}
 			if (AliyunMqTopicConstants.MqTopicEnum.SEND_SMS_TOPIC.getTopic().equals(topicName)) {
@@ -100,9 +101,13 @@ public class OptPushMessageListener implements MessageListenerConcurrently {
 			log.error("校验MQ message 失败 ex={}", ex.getMessage(), ex);
 		} catch (Exception e) {
 			log.error("处理MQ message 失败 topicName={}, keys={}, ex={}", topicName, keys, e.getMessage(), e);
+			// 如果消息消费失败，例如数据库异常等，扣款失败，发送失败需要重试的场景，
+			// 返回下面代码，RocketMQ就认为消费失败。
 			return ConsumeConcurrentlyStatus.RECONSUME_LATER;
 		}
+		//如果消息消费成功，邮件发送成功，redis 中存储该消息（幂等，过期时间 10 天）
 		ops.set(keys, keys, 10, TimeUnit.DAYS);
+		// 业务实现消费回调的时候，当且仅当返回下面代码时，RocketMQ才会认为这批消息是消费完成的
 		return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 	}
 }

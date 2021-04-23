@@ -45,6 +45,11 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/auth")
 @Api(value = "Web-AuthRestController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class AuthRestController extends BaseController {
+
+	public AuthRestController() {
+		System.out.println("进入"+this.getClass().getName());
+	}
+
 	@Resource
 	private UacUserService uacUserService;
 	@Resource

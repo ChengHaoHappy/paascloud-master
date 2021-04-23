@@ -62,7 +62,7 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 	private RedisTemplate<String, Object> redisTemplate;
 	@Resource
 	private OpcRpcService opcRpcService;
-	@Value("${paascloud.auth.refresh-token-url}")
+	@Value("${paascloud.auth.refresh-token-url}")  //uac/oauth/token
 	private String refreshTokenUrl;
 
 	@Override
@@ -130,6 +130,7 @@ public class UacUserTokenServiceImpl extends BaseService<UacUserToken> implement
 		uacUserTokenMapper.updateByPrimaryKeySelective(uacUserToken);
 		OAuth2ClientProperties[] clients = securityProperties.getOauth2().getClients();
 		int accessTokenValidateSeconds = clients[0].getAccessTokenValidateSeconds();
+		logger.info("更新Redis中旧token的过期时间");
 		updateRedisUserToken(uacUserToken.getAccessToken(), accessTokenValidateSeconds, tokenDto);
 	}
 

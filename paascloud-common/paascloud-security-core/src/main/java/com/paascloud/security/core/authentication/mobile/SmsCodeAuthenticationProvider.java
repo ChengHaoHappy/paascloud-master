@@ -33,7 +33,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 		SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
 
 		UserDetails user = userDetailsService.loadUserByUsername((String) authenticationToken.getPrincipal());
-
+		System.out.println("********************************SmsCodeAuthenticationProvider:"+user);
 		if (user == null) {
 			throw new InternalAuthenticationServiceException("无法获取用户信息");
 		}

@@ -36,39 +36,40 @@ import java.util.Set;
 @Component
 @Slf4j
 public class EmailProducer {
-	@Resource
-	private UacFreeMarkerService uacFreeMarkerService;
+    @Resource
+    private UacFreeMarkerService uacFreeMarkerService;
 
-	/**
-	 * Send email mq.
-	 *
-	 * @param emailSet          the email set
-	 * @param emailTemplateEnum the email template enum
-	 * @param param             the param
-	 */
-	public MqMessageData sendEmailMq(Set<String> emailSet, UacEmailTemplateEnum emailTemplateEnum, AliyunMqTopicConstants.MqTagEnum tagEnum, Map<String, Object> param) {
-		log.info("pcSendEmailRequest - 发送邮件MQ. emailSet={}, param={}", emailSet, param);
-		String msgBody;
-		try {
+    /**
+     * Send email mq.
+     *
+     * @param emailSet          the email set
+     * @param emailTemplateEnum the email template enum
+     * @param param             the param
+     */
+    public MqMessageData sendEmailMq(Set<String> emailSet, UacEmailTemplateEnum emailTemplateEnum, AliyunMqTopicConstants.MqTagEnum tagEnum, Map<String, Object> param) {
+        log.info("pcSendEmailRequest - 发送邮件MQ. emailSet={}, param={}", emailSet, param);
+        String msgBody;
+        try {
 
-			Preconditions.checkArgument(emailTemplateEnum != null, "邮箱模板信息不存在");
-			PcSendEmailRequest request = new PcSendEmailRequest();
+            Preconditions.checkArgument(emailTemplateEnum != null, "邮箱模板信息不存在");
+            PcSendEmailRequest request = new PcSendEmailRequest();
 
-			String templateLocation = emailTemplateEnum.getLocation();
-			String text = uacFreeMarkerService.getTemplate(param, templateLocation);
+            String templateLocation = emailTemplateEnum.getLocation();
+            String text = uacFreeMarkerService.getTemplate(param, templateLocation);
 
-			request.setText(text);
-			request.setTo(emailSet);
-			request.setSubject(emailTemplateEnum.getSubject());
+            request.setText(text);
+            request.setTo(emailSet);
+            request.setSubject(emailTemplateEnum.getSubject());
 
-			msgBody = JSON.toJSONString(request);
-		} catch (Exception e) {
-			log.error("发送邮件验证码 smsMessage转换为json字符串失败", e);
-			throw new UacBizException(ErrorCodeEnum.UAC10011021);
-		}
-		String topic = tagEnum.getTopic();
-		String tag = tagEnum.getTag();
-		String key = RedisKeyUtil.createMqKey(topic, tag, emailSet.toString(), msgBody);
-		return new MqMessageData(msgBody, topic, tag, key);
-	}
+            msgBody = JSON.toJSONString(request);
+        } catch (Exception e) {
+            log.error("发送邮件验证码 smsMessage转换为json字符串失败", e);
+            throw new UacBizException(ErrorCodeEnum.UAC10011021);
+        }
+        String topic = tagEnum.getTopic();
+        String tag = tagEnum.getTag();
+        String key = RedisKeyUtil.createMqKey(topic, tag, emailSet.toString(), msgBody);
+        log.info("topic = " + topic + " tag = " + tag + " messageKer = " + key);
+        return new MqMessageData(msgBody, topic, tag, key);
+    }
 }

@@ -29,7 +29,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 处理待确认的消息数据.
+ * 处理待确认的消息数据.【10分钟执行一次】
  *
  * @author paascloud.net @gmail.com
  */
@@ -75,6 +75,7 @@ public class HandleWaitingConfirmMessageJob extends AbstractBaseDataflowJob<Stri
 		if (messageKeyList == null) {
 			return;
 		}
+		//查找pc_uac_mq_message_data 和 pc_tpc_mq_message_data 中共同的状态为 未发送 的消息
 		List<String> resendMessageList = uacRpcService.queryWaitingConfirmMessageKeyList(messageKeyList);
 		if (resendMessageList == null) {
 			resendMessageList = Lists.newArrayList();

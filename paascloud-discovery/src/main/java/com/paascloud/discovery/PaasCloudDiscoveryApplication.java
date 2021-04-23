@@ -22,8 +22,8 @@ import org.springframework.cloud.config.server.EnableConfigServer;
  * @author paascloud.net@gmail.com
  */
 @SpringBootApplication
-@EnableConfigServer
-@EnableDiscoveryClient
+@EnableConfigServer  // 通过@EnableConfigServer注解激活配置中心服务
+@EnableDiscoveryClient  //开启服务发现
 public class PaasCloudDiscoveryApplication {
 
 	/**

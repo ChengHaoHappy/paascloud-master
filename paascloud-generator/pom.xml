@@ -16,6 +16,7 @@
         <module>paascloud-generator-omc</module>
         <module>paascloud-generator-opc</module>
 		    <module>paascloud-generator-tpc</module>
+        <module>ananops-generator-pmc</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -36,6 +37,11 @@
     </properties>
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>org.sonatype.sisu</groupId>-->
+<!--            <artifactId>sisu-inject-bean</artifactId>-->
+<!--            <version>2.3.0</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>

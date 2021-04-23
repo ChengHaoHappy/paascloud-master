@@ -23,62 +23,77 @@
   </properties>
 
   <dependencies>
+    <!--拉去远程配置文件-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-config</artifactId>
     </dependency>
+    <!--拉去远程配置文件-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-hystrix</artifactId>
     </dependency>
+    <!--hystrix监控依赖-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
     </dependency>
+    <!--spring-boot-admin 服务端依赖 -->
     <dependency>
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-server</artifactId>
     </dependency>
+    <!--spring-boot-admin 服务端依赖 -->
     <dependency>
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-server-ui</artifactId>
     </dependency>
+    <!--邮件发送组件 -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-mail</artifactId>
     </dependency>
+    <!--应用监控依赖-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
+    <!--hystrix监控依赖-->
     <dependency>
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
     </dependency>
+    <!--健康聚合依赖-->
     <dependency>
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-server-ui-turbine</artifactId>
     </dependency>
+    <!--JVM监控依赖-->
     <dependency>
       <groupId>org.jolokia</groupId>
       <artifactId>jolokia-core</artifactId>
     </dependency>
+    <!--内存分布式计算平台-->
     <dependency>
       <groupId>com.hazelcast</groupId>
       <artifactId>hazelcast</artifactId>
     </dependency>
+    <!--安全相关-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
+    <!--监控管理-->
     <dependency>
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-server-ui-login</artifactId>
     </dependency>
+    <!--监控管理-->
     <dependency>
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-starter-client</artifactId>
     </dependency>
+    <!--监控数据聚合-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-netflix-turbine</artifactId>

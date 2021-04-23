@@ -75,6 +75,7 @@ public class TokenStoreConfig {
 		 */
 		@Bean
 		public TokenStore jwtTokenStore() {
+			System.out.println("********************return JwtTokenStore********************");
 			return new JwtTokenStore(jwtAccessTokenConverter());
 		}
 

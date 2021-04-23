@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 
 /**
  * The class Spring simple job.
- *
+ * 超时 token 更新为离线
  * @author paascloud.net @gmail.com
  */
 @Slf4j

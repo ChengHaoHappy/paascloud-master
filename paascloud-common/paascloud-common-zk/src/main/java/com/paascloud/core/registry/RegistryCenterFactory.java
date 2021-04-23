@@ -54,10 +54,13 @@ public final class RegistryCenterFactory {
 	 * @param app                 the app
 	 */
 	public static void startup(PaascloudProperties paascloudProperties, String host, String app) {
+		// 1. 初始化用于协调分布式服务的注册中心
 		CoordinatorRegistryCenter coordinatorRegistryCenter = createCoordinatorRegistryCenter(paascloudProperties.getZk());
 		RegisterDto dto = new RegisterDto(app, host, coordinatorRegistryCenter);
+		// 2. 生成分布式ID,利用zk节点的版本号每写一次就自增的机制来实现
 		Long serviceId = new IncrementIdGenerator(dto).nextId();
 		IncrementIdGenerator.setServiceId(serviceId);
+		// 3. 当前启动服务注册到 zookeeper 中心（即创建节点数据）
 		registerMq(paascloudProperties, host, app);
 	}
 

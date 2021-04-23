@@ -110,5 +110,9 @@
         <groupId>org.springframework.retry</groupId>
         <artifactId>spring-retry</artifactId>
       </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -37,8 +37,7 @@ public class RenewFilter extends ZuulFilter {
 
 	@Resource
 	private JwtTokenStore jwtTokenStore;
-	private static final int EXPIRES_IN = 60 * 20;
-
+	private static final int EXPIRES_IN = 60 * 20; //20分钟
 	/**
 	 * Filter type string.
 	 *
@@ -89,7 +88,7 @@ public class RenewFilter extends ZuulFilter {
 
 	private void doSomething(RequestContext requestContext) {
 		HttpServletRequest request = requestContext.getRequest();
-		String token = StringUtils.substringAfter(request.getHeader(HttpHeaders.AUTHORIZATION), "bearer ");
+		String token = StringUtils.substringAfter(request.getHeader(HttpHeaders.AUTHORIZATION), "Bearer ");
 		if (StringUtils.isEmpty(token)) {
 			return;
 		}
@@ -99,6 +98,7 @@ public class RenewFilter extends ZuulFilter {
 		if (expiresIn < EXPIRES_IN) {
 			HttpServletResponse servletResponse = requestContext.getResponse();
 			servletResponse.addHeader("Renew-Header", "true");
+			log.info("在响应头中添加Token续租标志");
 		}
 	}
 

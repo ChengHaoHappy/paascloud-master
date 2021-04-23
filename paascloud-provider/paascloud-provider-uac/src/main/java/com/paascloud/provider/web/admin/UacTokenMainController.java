@@ -39,6 +39,10 @@ import javax.annotation.Resource;
 @Api(value = "Web - UacTokenMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacTokenMainController extends BaseController {
 
+	public UacTokenMainController() {
+		System.out.println("进入"+this.getClass().getName());
+	}
+
 	@Resource
 	private UacUserTokenService uacUserTokenService;
 

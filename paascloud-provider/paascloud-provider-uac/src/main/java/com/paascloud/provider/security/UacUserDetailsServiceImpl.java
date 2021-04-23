@@ -3,6 +3,7 @@ package com.paascloud.provider.security;
 import com.paascloud.provider.model.domain.UacUser;
 import com.paascloud.provider.service.UacUserService;
 import com.paascloud.security.core.SecurityUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import java.util.Collection;
  * @author paascloud.net @gmail.com
  */
 @Component
+@Slf4j
 public class UacUserDetailsServiceImpl implements UserDetailsService {
 
 	@Resource
@@ -32,13 +34,17 @@ public class UacUserDetailsServiceImpl implements UserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) {
+		log.info("******************UacUserDetailsServiceImpl.loadUserByUsername********************");
 		Collection<GrantedAuthority> grantedAuthorities;
 		UacUser user = uacUserService.findByLoginName(username);
+		log.info("UauUser: "+ user);
 		if (user == null) {
 			throw new BadCredentialsException("用户名不存在或者密码错误");
 		}
 		user = uacUserService.findUserInfoByUserId(user.getId());
+		log.info("user: "+ user);
 		grantedAuthorities = uacUserService.loadUserAuthorities(user.getId());
+		log.info("grantedAuthorities: "+ grantedAuthorities);
 		return new SecurityUser(user.getId(), user.getLoginName(), user.getLoginPwd(),
 				user.getUserName(), user.getGroupId(), user.getGroupName(), user.getStatus(), grantedAuthorities);
 	}

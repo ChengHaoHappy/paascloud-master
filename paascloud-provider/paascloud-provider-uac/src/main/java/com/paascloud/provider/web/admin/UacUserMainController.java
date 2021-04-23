@@ -49,6 +49,11 @@ import java.util.Objects;
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "Web - UacUserMainController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacUserMainController extends BaseController {
+
+	public UacUserMainController() {
+		System.out.println("进入"+this.getClass().getName());
+	}
+
 	@Resource
 	private UacUserService uacUserService;
 

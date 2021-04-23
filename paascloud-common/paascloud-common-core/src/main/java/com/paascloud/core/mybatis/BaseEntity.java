@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.paascloud.base.dto.LoginAuthDto;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.persistence.*;
 import java.io.Serializable;
